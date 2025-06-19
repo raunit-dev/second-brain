@@ -12,12 +12,15 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+
+
+
 const signupSchema = z.object({
     username: z.string().min(3),
     password: z.string().min(6)
 });
 
-app.post("/api/v1/signup", async (req, res) => {
+app.post("/api/v1/signup", async (req: any, res: any) => {
     try {
         const parseResult = signupSchema.safeParse(req.body);
         if (!parseResult.success) {
@@ -38,7 +41,7 @@ app.post("/api/v1/signup", async (req, res) => {
     }
 });
 
-app.post("/api/v1/signin", async (req, res) => {
+app.post("/api/v1/signin", async (req: any, res: any) => {
     try {
         const { username, password } = req.body;
 
@@ -47,6 +50,9 @@ app.post("/api/v1/signin", async (req, res) => {
             return res.status(403).json({ message: "Incorrect credentials" });
         }
 
+        if (!existingUser.password) {
+            return res.status(403).json({ message: "Incorrect credentials" });
+        }
         const isPasswordValid = await bcrypt.compare(password, existingUser.password);
         if (!isPasswordValid) {
             return res.status(403).json({ message: "Incorrect credentials" });
@@ -78,7 +84,6 @@ app.post("/api/v1/content", userMiddleware, async (req, res) => {
 
 app.get("/api/v1/content", userMiddleware, async (req, res) => {
     try {
-        //@ts-ignore
         const userId = req.userId;
         const content = await ContentModel.find({ userId: userId }).populate("userId", "username");
         res.json(content);
@@ -144,5 +149,5 @@ app.get("/api/v1/brain/:shareLink", async (req, res) => {
 });
 
 app.listen(3000, () => {
-    console.log("Server is running on port 3000");
+  console.log("🚀 Connected to backend on http://localhost:3000");
 });
