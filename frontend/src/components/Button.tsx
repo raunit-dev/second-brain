@@ -1,36 +1,30 @@
-// Importing ReactElement type for typing React elements like icons
-// Importing ReactElement type for typing React elements like icons
 import type { ReactElement } from "react";
 
-// Defining the properties that the Button component can accept
 interface ButtonProps {
-    variant: "primary" | "secondary"; 
-    text: string; 
-    startIcon?: ReactElement; 
+    variant: "primary" | "secondary";
+    text: string;
+    startIcon?: ReactElement;
     onClick?: () => void;
-    fullWidth?: boolean; 
-    loading?: boolean; 
+    fullWidth?: boolean;
+    loading?: boolean;
 }
 
-// Mapping button variants to their respective CSS classes
 const variantClasses = {
-    "primary": "bg-purple-600 text-white", // Styles for primary variant
-    "secondary": "bg-purple-200 text-purple-600", // Styles for secondary variant
+    primary: "bg-purple-600 text-white",
+    secondary: "bg-purple-300 text-purple-600",
 };
 
-// Default CSS classes for all buttons
-const defaultStyles = "px-4 py-2 rounded-md font-light flex items-center";      //items-center is for vertically allignment of the item to be center
+const defaultStyles = "px-4 py-2 rounded-md font-light flex items-center";
 
-// The Button functional component
 export function Button({ variant, text, startIcon, onClick, fullWidth, loading }: ButtonProps) {
+    const className =
+        `${variantClasses[variant]} ${defaultStyles}` +
+        (fullWidth ? " w-full flex justify-center items-center" : "") +
+        (loading ? " opacity-45" : "");
+
     return (
-        // A button element with dynamic class names and properties
-        <button onClick={onClick} className={variantClasses[variant] + " " + defaultStyles + `${fullWidth ? " w-full flex justify-center items-center" : ""} ${loading ? "opacity-45" : ""}` } disabled={loading} >
-            {/* Container for optional start icon */}
-            <div className="pr-2">
-                {startIcon}
-            </div>
-            {/* Button text */}
+        <button onClick={onClick} className={className} disabled={loading}>
+            {startIcon && <div className="pr-2">{startIcon}</div>}
             {text}
         </button>
     );

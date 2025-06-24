@@ -5,14 +5,20 @@ import { ContentModel, LinkModel, UserModel } from "./db";
 import { JWT_SECRET } from "./config";
 import { userMiddleware } from "./middleware";
 import cors from "cors";
-import { z } from "zod";
+import { any, z } from "zod";
 import bcrypt from "bcryptjs";
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-
+declare global {
+    namespace Express {
+        export interface Request {
+            userId?: string
+        }
+    }
+}
 
 
 const signupSchema = z.object({

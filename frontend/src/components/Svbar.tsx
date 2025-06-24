@@ -1,7 +1,7 @@
 import type { ReactElement } from "react"; // Importing ReactElement type for defining the icon prop type
 
 // SidebarItem component definition
-export function SidebarItem({text, icon}: { // Destructuring props: text (string), icon (ReactElement)
+export function Svbar({text, icon}: { // Destructuring props: text (string), icon (ReactElement)
     text: string; // The text displayed next to the icon
     icon: ReactElement; // The icon element rendered alongside the text
 }) {
